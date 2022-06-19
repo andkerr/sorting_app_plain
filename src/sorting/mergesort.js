@@ -1,6 +1,3 @@
-// TODO: Update this implementation to track the progress of merge sort
-//       in stages, by saving the current state of vals to an array of
-//       'frames' after each merge operation.
 export function mergeSort(vals, lo, hi, frames) {
   if (lo == hi) {
     return;
