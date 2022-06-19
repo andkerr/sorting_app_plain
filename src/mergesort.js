@@ -7,6 +7,8 @@ export function mergeSort(vals, lo, hi) {
     mergeSort(vals, lo, mid);
     mergeSort(vals, mid + 1, hi);
     merge(vals, lo, mid, hi);
+
+    console.log(vals);
   }
 }
 

@@ -2,8 +2,8 @@ import { drawCells, gridInit } from "./grid.js";
 import { randomPerm, sleep } from "./helpers.js";
 import { mergeSort } from "./mergesort.js";
 
-const N_ROWS = 30;
-const N_COLS = 30;
+const N_ROWS = 10;
+const N_COLS = 10;
 
 document.addEventListener('DOMContentLoaded', () => {
   var g = {
@@ -21,5 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
     vals[i] = i;
   }
 
-  drawCells(g, randomPerm(vals));
+  // drawCells(g, randomPerm(vals));
+
+  var A = randomPerm(vals);
+  console.log(A);
+  mergeSort(A, 0, A.length - 1);
 });
