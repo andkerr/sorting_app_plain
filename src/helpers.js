@@ -1,3 +1,5 @@
+import { drawCells } from "./grid.js";
+
 export const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 // from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/
@@ -19,4 +21,11 @@ export function randomPerm(elts) {
   }
 
   return elts;
+}
+
+export async function animate(g, frames) {
+  for (let i = 0; i < frames.length; ++i) {
+    drawCells(g, frames[i]);
+    await sleep(500);
+  }
 }

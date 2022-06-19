@@ -1,9 +1,9 @@
 import { drawCells, gridInit } from "./grid.js";
-import { randomPerm, sleep } from "./helpers.js";
-import { mergeSort } from "./mergesort.js";
+import { animate, randomPerm } from "./helpers.js";
+import { mergeSort } from "./sorting/mergesort.js";
 
-const N_ROWS = 10;
-const N_COLS = 10;
+const N_ROWS = 32;
+const N_COLS = 32;
 
 document.addEventListener('DOMContentLoaded', () => {
   var g = {
@@ -15,15 +15,35 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   g = gridInit(g);
-
-  const vals = Array(g.rows);
+  var vals = Array(g.rows);
   for (let i = 0; i < vals.length; ++i) {
     vals[i] = i;
   }
+  drawCells(g, vals);
 
-  // drawCells(g, randomPerm(vals));
+  const scrambleBtn = document.getElementById('scramble-btn');
+  scrambleBtn.addEventListener('click', (e) => handleScramble(g, vals));
 
-  var A = randomPerm(vals);
-  console.log(A);
-  mergeSort(A, 0, A.length - 1);
+  const sortBtn = document.getElementById('sort-btn');
+  sortBtn.addEventListener('click', (e) => handleSort(g, vals));
 });
+
+function handleScramble(g, vals) {
+  vals = randomPerm(vals);
+  drawCells(g, vals);
+}
+
+function handleSort(g, vals) {
+  const scrambleBtn = document.getElementById('scramble-btn');
+  const sortBtn = document.getElementById('sort-btn');
+
+  scrambleBtn.disabled = true;
+  sortBtn.disabled = true;
+
+  var frames = Array();
+  mergeSort(vals, 0, vals.length - 1, frames);
+  animate(g, frames).then(() => {
+    scrambleBtn.disabled = false;
+    sortBtn.disabled = false;
+  });
+}

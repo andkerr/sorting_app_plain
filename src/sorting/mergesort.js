@@ -1,14 +1,17 @@
-export function mergeSort(vals, lo, hi) {
+// TODO: Update this implementation to track the progress of merge sort
+//       in stages, by saving the current state of vals to an array of
+//       'frames' after each merge operation.
+export function mergeSort(vals, lo, hi, frames) {
   if (lo == hi) {
     return;
   }
   else {
     const mid = Math.floor((lo + hi) / 2);
-    mergeSort(vals, lo, mid);
-    mergeSort(vals, mid + 1, hi);
+    mergeSort(vals, lo, mid, frames);
+    mergeSort(vals, mid + 1, hi, frames);
     merge(vals, lo, mid, hi);
 
-    console.log(vals);
+    frames.push(JSON.parse(JSON.stringify(vals)));
   }
 }
 

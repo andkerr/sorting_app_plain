@@ -3,7 +3,7 @@ export function gridInit(g) {
   var canvas = document.getElementById("canvas"),
       context = canvas.getContext("2d");
 
-  var width = Math.min(window.innerWidth, window.innerHeight) * 0.75;
+  var width = Math.min(window.innerWidth, window.innerHeight) * 0.9;
   var height = width;
 
   g.cellWidth = width / g.cols,
@@ -62,7 +62,7 @@ export function drawCells(g, vals) {
 
   for (let i = 0; i < vals.length; ++i) {
     context.save();
-    context.translate(i * g.cellWidth, vals[i] * g.cellHeight);
+    context.translate(i * g.cellWidth, (g.rows - vals[i] - 1) * g.cellHeight);
 
     context.fillRect(g.gutter, g.gutter, g.cellWidth - g.gutter, g.cellHeight - g.gutter);
 
