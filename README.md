@@ -8,4 +8,6 @@ This a work in progress. Currently, this app implements the following sorting al
 
 It is not yet deployed to a server, and must be run your own machine. To spin it up:
 
-`bash`
+```
+asdfasdf
+```
