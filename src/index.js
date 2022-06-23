@@ -1,49 +1,89 @@
 import { drawCells, gridInit } from "./grid.js";
 import { animate, randomPerm } from "./helpers.js";
 import { mergeSort } from "./sorting/mergesort.js";
+import { heapSort } from "./sorting/heapsort.js";
 
 const N_ROWS = 32;
 const N_COLS = 32;
 
-document.addEventListener('DOMContentLoaded', () => {
-  var g = {
-    rows: N_ROWS,
-    cols: N_COLS,
-    cellWidth: undefined,
-    cellHeight: undefined,
-    gutter: undefined
-  };
-
-  g = gridInit(g);
-  var vals = Array(g.rows);
-  for (let i = 0; i < vals.length; ++i) {
-    vals[i] = i;
+const buttons = [
+  {
+    text: 'Scramble',
+    onClick: handleScramble,
+    DOMElement: undefined,
+  },
+  {
+    text: 'Merge Sort',
+    onClick: handleMergeSort,
+    DOMElement: undefined,
+  },
+  {
+    text: 'Heap Sort',
+    onClick: handleHeapSort,
+    DOMElement: undefined,
   }
+]
+
+var g = {
+  rows: N_ROWS,
+  cols: N_COLS,
+  cellWidth: undefined,
+  cellHeight: undefined,
+  gutter: undefined
+};
+
+var vals = [...Array(g.rows).keys()];
+
+// Should I prefer an explicit main() fuction over this??
+document.addEventListener('DOMContentLoaded', () => {
+  g = gridInit(g);
   drawCells(g, vals);
-
-  const scrambleBtn = document.getElementById('scramble-btn');
-  scrambleBtn.addEventListener('click', (e) => handleScramble(g, vals));
-
-  const sortBtn = document.getElementById('sort-btn');
-  sortBtn.addEventListener('click', (e) => handleSort(g, vals));
+  initButtons();
 });
 
-function handleScramble(g, vals) {
-  vals = randomPerm(vals);
-  drawCells(g, vals);
+function initButtons() {
+  const btnContainer = document.getElementById('button-container');
+  buttons.forEach((btn) => {
+    let btnElt = document.createElement('button');
+    btnElt.innerHTML = btn.text;
+    btnElt.addEventListener('click', btn.onClick);
+    btnContainer.appendChild(btnElt);
+    btn.DOMElement = btnElt;
+  });
 }
 
-function handleSort(g, vals) {
-  const scrambleBtn = document.getElementById('scramble-btn');
-  const sortBtn = document.getElementById('sort-btn');
+function toggleButtonsDisabled() {
+  buttons.forEach((btn) => {
+    btn.DOMElement.disabled = !btn.DOMElement.disabled;
+  });
+}
 
-  scrambleBtn.disabled = true;
-  sortBtn.disabled = true;
+function handleScramble() {
+  toggleButtonsDisabled();
+
+  vals = randomPerm(vals);
+  drawCells(g, vals);
+
+  toggleButtonsDisabled();
+}
+
+function handleMergeSort() {
+  toggleButtonsDisabled();
 
   var frames = Array();
   mergeSort(vals, 0, vals.length - 1, frames);
   animate(g, frames).then(() => {
-    scrambleBtn.disabled = false;
-    sortBtn.disabled = false;
+    toggleButtonsDisabled();
+  });
+}
+
+function handleHeapSort() {
+  toggleButtonsDisabled();
+
+  var frames = Array();
+  heapSort(vals, frames);
+  console.log(frames.length);
+  animate(g, frames).then(() => {
+    toggleButtonsDisabled();
   });
 }

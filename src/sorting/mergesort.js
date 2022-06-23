@@ -8,7 +8,7 @@ export function mergeSort(vals, lo, hi, frames) {
     mergeSort(vals, mid + 1, hi, frames);
     merge(vals, lo, mid, hi);
 
-    frames.push(JSON.parse(JSON.stringify(vals)));
+    frames.push(JSON.parse(JSON.stringify(vals))); // deep copy
   }
 }
 
