@@ -1,6 +1,7 @@
 Sorting Algorithms
 ==================
-Check out some sorting algorithms in your browser (really, look at them go!). Implemented in vanilla EMCA 6 Javascript.
+Check out some sorting algorithms in your browser (really, look at them go!),
+built with vanilla JavaScript.
 
 This a work in progress. Currently, I have implemented the following sorting algorithms:
 -   Merge Sort
