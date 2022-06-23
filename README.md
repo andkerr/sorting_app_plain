@@ -19,5 +19,5 @@ $ cd <path-to-project>/src/
 $ http-server
 ```
 
-Visit `localhost:8080` (`http-server` deploys to this port by default)
-in your browser, and sort away!
+Visit `localhost:8080` in your browser (`http-server` deploys to this port by
+default), and sort away!
