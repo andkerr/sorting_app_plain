@@ -8,8 +8,8 @@ This a work in progress. Currently, I have implemented the following sorting alg
 -   Heap Sort
 
 It is not yet deployed to a server, and must be run your own machine.
-To spin it up, clone the project, install `http-server`, the only dependency,
-and run it from the project's `src/` directory.
+To spin it up, clone the project, install `http-server`, the only dependency __iff__
+you already have `npm` installed, and run it from the project's `src/` directory.
 
 ```bash
 $ npm install -g http-server
