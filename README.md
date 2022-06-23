@@ -6,8 +6,17 @@ This a work in progress. Currently, this app implements the following sorting al
 -   Merge Sort
 -   Heap Sort
 
-It is not yet deployed to a server, and must be run your own machine. To spin it up:
+It is not yet deployed to a server, and must be run your own machine.
+To spin it up, clone the project, install `http-server`, the only dependency,
+and run it from the project's `src/` directory.
 
+```bash
+$ npm install -g http-server
+
+$ cd <path-to-project>/src/
+
+$ http-server
 ```
-asdfasdf
-```
+
+Visit `localhost:8080` (`http-server` deploys to this port by default)
+in your browser, and sort away!
