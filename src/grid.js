@@ -6,13 +6,13 @@ export function gridInit(g) {
   var width = Math.min(window.innerWidth, window.innerHeight) * 0.9;
   var height = width;
 
-  g.cellWidth = width / g.cols,
-  g.cellHeight = height / g.rows;
+  g.cellWidth = Math.floor(width / g.cols),
+  g.cellHeight = Math.floor(height / g.rows);
 
   g.gutter = Math.ceil(0.1 * g.cellWidth);
 
-  canvas.width = Math.ceil(width + g.gutter);
-  canvas.height = Math.ceil(height + g.gutter);
+  canvas.width = g.cellWidth * g.cols + g.gutter;
+  canvas.height = g.cellHeight * g.rows + g.gutter;
 
   context.fillStyle = "#cccccc"; // grey background
   context.fillRect(0, 0, canvas.width, canvas.height);

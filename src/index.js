@@ -39,6 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
   g = gridInit(g);
   drawCells(g, vals);
   initButtons();
+
+  console.log(g);
 });
 
 function initButtons() {
