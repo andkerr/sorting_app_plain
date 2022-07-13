@@ -1,38 +1,69 @@
-(function(global) {
-  const ROWS = 32,
-        COLS = 32;
+class Grid {
+  constructor(canvasElt, nCols, nRows, gutter) {
+    this.canvasElt = canvasElt;
+    this.nCols = nCols;
+    this.nRows = nRows;
+    this.gutter = gutter;
 
-  var canvas = document.getElementById("canvas"),
-      context = canvas.getContext("2d");
+    this.cellWidth = Math.floor((canvasElt.width - gutter) / nCols - gutter);
+    this.cellHeight = Math.floor((canvasElt.height - gutter) / nRows - gutter);
+  }
 
-  var width = Math.min(global.innerWidth, global.innerHeight) * 0.9;
-  var height = width;
+  draw() {
+    let context = this.canvasElt.getContext('2d');
 
-  cellWidth = Math.floor(width / COLS),
-  cellHeight = Math.floor(height / ROWS);
+    context.fillStyle = '#cccccc';
+    context.fillRect(0, 0, this.canvasElt.width, this.canvasElt.height);
 
-  gutter = Math.ceil(0.1 * cellWidth);
+    context.fillStyle = '#ffffff';
+    for (let i = 0; i < this.nCols; ++i) {
+      for (let j = 0; j < this.nRows; ++j) {
+        context.save();
 
-  canvas.width = cellWidth * COLS + gutter;
-  canvas.height = cellHeight * ROWS + gutter;
+        context.translate(j * this.cellHeight + this.gutter, i * this.cellWidth + this.gutter);
+        context.fillRect(0, 0, this.cellWidth - this.gutter, this.cellHeight - this.gutter);
 
-  context.fillStyle = "#cccccc"; // grey background
-  context.fillRect(0, 0, canvas.width, canvas.height);
-  context.fillStyle = "#ffffff"; // default cell fill
-
-  for (var i = 0; i < ROWS; ++i) {
-    for (var j = 0; j < COLS; ++j) {
-      context.save();
-      context.translate(j * cellWidth, i * cellHeight);
-
-      // drawing code
-      context.fillRect(gutter, gutter, cellWidth - gutter, cellHeight - gutter);
-
-      context.restore();
+        context.restore();
+      }
     }
   }
-})(window);
+}
 
+// (function(global) {
+//   const ROWS = 32,
+//         COLS = 32;
+// 
+//   var canvas = document.getElementById("canvas"),
+//       context = canvas.getContext("2d");
+// 
+//   var width = Math.min(global.innerWidth, global.innerHeight) * 0.9;
+//   var height = width;
+// 
+//   cellWidth = Math.floor(width / COLS),
+//   cellHeight = Math.floor(height / ROWS);
+// 
+//   gutter = Math.ceil(0.1 * cellWidth);
+// 
+//   canvas.width = cellWidth * COLS + gutter;
+//   canvas.height = cellHeight * ROWS + gutter;
+// 
+//   context.fillStyle = "#cccccc"; // grey background
+//   context.fillRect(0, 0, canvas.width, canvas.height);
+//   context.fillStyle = "#ffffff"; // default cell fill
+// 
+//   for (var i = 0; i < ROWS; ++i) {
+//     for (var j = 0; j < COLS; ++j) {
+//       context.save();
+//       context.translate(j * cellWidth, i * cellHeight);
+// 
+//       // drawing code
+//       context.fillRect(gutter, gutter, cellWidth - gutter, cellHeight - gutter);
+// 
+//       context.restore();
+//     }
+//   }
+// })(window);
+// 
 // initialize a <canvas> element that displays an n x n grid
 // export function gridInit(g) {
 //   var canvas = document.getElementById("canvas"),

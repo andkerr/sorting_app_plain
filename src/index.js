@@ -1,6 +1,10 @@
-(function(global) {
+function main() {
+    let canvas = document.getElementById('canvas');
+    let grid = new Grid(canvas, 10, 10, 2);
+    grid.draw();
+}
 
-})(window);
+document.addEventListener('DOMContentLoaded', main);
 
 // import { drawCells, gridInit } from "./grid.js";
 // import { animate, randomPerm } from "./helpers.js";
