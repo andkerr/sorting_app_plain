@@ -1,6 +1,5 @@
 function main() {
-    let canvas = document.getElementById('canvas');
-    let grid = new Grid(canvas, 10, 10, 2);
+    let grid = new Grid('canvas', 20, 20, 3);
     grid.draw();
 }
 

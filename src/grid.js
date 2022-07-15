@@ -1,15 +1,15 @@
 class Grid {
-  constructor(canvasElt, nCols, nRows, gutter) {
-    this.canvasElt = canvasElt;
-    this.nCols = nCols;
-    this.nRows = nRows;
+  constructor(canvasEltId, cellWidth, cellHeight, gutter) {
+    this.canvasElt = document.getElementById(canvasEltId);
+    this.cellWidth = cellWidth;
+    this.cellHeight = cellHeight;
     this.gutter = gutter;
 
-    this.cellWidth = Math.floor((canvasElt.width - gutter) / nCols - gutter);
-    this.cellHeight = Math.floor((canvasElt.height - gutter) / nRows - gutter);
+    this.nCols = this.canvasElt.width / this.cellWidth;
+    this.nRows = this.canvasElt.height / this.cellHeight;
   }
 
-  draw() {
+  draw(data) {
     let context = this.canvasElt.getContext('2d');
 
     context.fillStyle = '#cccccc';
@@ -20,8 +20,32 @@ class Grid {
       for (let j = 0; j < this.nRows; ++j) {
         context.save();
 
-        context.translate(j * this.cellHeight + this.gutter, i * this.cellWidth + this.gutter);
-        context.fillRect(0, 0, this.cellWidth - this.gutter, this.cellHeight - this.gutter);
+        context.translate(j * this.cellHeight, i * this.cellWidth);
+        context.fillRect(this.gutter,
+                         this.gutter,
+                         this.cellWidth - this.gutter,
+                         this.cellHeight - this.gutter);
+
+        context.restore();
+      }
+    }
+  }
+
+  clear() {
+    let context = this.canvasElt.getContext('2d');
+
+    context.fillStyle = '#cccccc';
+    context.fillRect(0, 0, this.canvasElt.width, this.canvasElt.height);
+
+    context.fillStyle = '#ffffff';
+    for (let i = 0; i < this.cellWidth; ++i) {
+      for (let j = 0; j < this.cellHeight; ++j) {
+        context.save();
+
+        context.translate(j * this.cellHeight + this.gutter,
+                          i * this.cellWidth + this.gutter);
+        context.fillRect(0, 0, this.cellWidth - this.gutter,
+                         this.cellHeight - this.gutter);
 
         context.restore();
       }
