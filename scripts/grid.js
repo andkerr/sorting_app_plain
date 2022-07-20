@@ -14,15 +14,15 @@ class Grid {
     this.#gridWidth = this.#nCols * (this.#cellWidth + this.#gutter) + this.#gutter;
     this.#gridHeight = this.#nRows * (this.#cellHeight + this.#gutter) + this.#gutter;
 
+    // permanently center the grid in the excess horizontal and vertical canvas space
     let extraX = this.#canvasElt.width - this.#gridWidth;
     let extraY = this.#canvasElt.height - this.#gridHeight;
-    
-    // center the grid in the excess horizontal and vertical canvas space
     let context = this.#canvasElt.getContext('2d');
     context.translate(Math.floor(extraX / 2), Math.floor(extraY / 2));
   
+    // to start, render an empty grid
     this.#setBackground();
-    this.clearGrid(); // to start, render an empty grid
+    this.clear();
   }
 
   /* Public Methods */
@@ -35,7 +35,7 @@ class Grid {
     return this.#nRows;
   }
 
-  clearGrid() {
+  clear() {
     for (let i = 0; i < this.#nCols; ++i) {
       for (let j = 0; j < this.#nRows; ++j) {
         this.clearCell(i, j);
