@@ -1,12 +1,6 @@
 class Grid {
-  #canvasElt;
-  #cellWidth;
-  #cellHeight;
-  #gridWidth;
-  #gridHeight;
-  #gutter;
-  #nCols;
-  #nRows;
+
+  /* Constructor */
 
   constructor(canvasEltId, cellWidth, cellHeight, gutter) {
     this.#canvasElt = document.getElementById(canvasEltId);
@@ -22,14 +16,16 @@ class Grid {
 
     let extraX = this.#canvasElt.width - this.#gridWidth;
     let extraY = this.#canvasElt.height - this.#gridHeight;
-    console.log(`extraX: ${extraX}, extraY: ${extraY}`);
     
-    // center the grid in the excess horizontal and vertical space
+    // center the grid in the excess horizontal and vertical canvas space
     let context = this.#canvasElt.getContext('2d');
     context.translate(Math.floor(extraX / 2), Math.floor(extraY / 2));
   
+    this.#setBackground();
     this.clearGrid(); // to start, render an empty grid
   }
+
+  /* Public Methods */
 
   get nCols() {
     return this.#nCols;
@@ -40,21 +36,9 @@ class Grid {
   }
 
   clearGrid() {
-    let context = this.#canvasElt.getContext('2d');
-
-    context.fillStyle = '#cccccc';
-    context.fillRect(0, 0, this.#gridWidth, this.#gridHeight);
-
-    context.fillStyle = '#ffffff';
     for (let i = 0; i < this.#nCols; ++i) {
       for (let j = 0; j < this.#nRows; ++j) {
-        context.save();
-
-        context.translate(i * (this.#cellWidth + this.#gutter) + this.#gutter,
-                          j * (this.#cellHeight + this.#gutter) + this.#gutter);
-        context.fillRect(0, 0, this.#cellWidth, this.#cellHeight);
-
-        context.restore();
+        this.clearCell(i, j);
       }
     }
   }
@@ -73,5 +57,24 @@ class Grid {
 
   clearCell(i, j) {
     this.fillCell(i, j, '#ffffff');
+  }
+
+  /* Private Variables */
+
+  #canvasElt;
+  #cellWidth;
+  #cellHeight;
+  #gridWidth;
+  #gridHeight;
+  #gutter;
+  #nCols;
+  #nRows;
+
+  /* Private Methods */
+
+  #setBackground(bgColor = '#cccccc') {
+    let context = this.#canvasElt.getContext('2d');
+    context.fillStyle = bgColor;
+    context.fillRect(0, 0, this.#gridWidth, this.#gridHeight);
   }
 }
