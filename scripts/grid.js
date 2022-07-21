@@ -35,14 +35,6 @@ class Grid {
     return this.#nRows;
   }
 
-  clear() {
-    for (let i = 0; i < this.#nCols; ++i) {
-      for (let j = 0; j < this.#nRows; ++j) {
-        this.clearCell(i, j);
-      }
-    }
-  }
-
   fillCell(i, j, color = '#cc8800') {
     let context = this.#canvasElt.getContext('2d');
     context.fillStyle = color;
@@ -57,6 +49,21 @@ class Grid {
 
   clearCell(i, j) {
     this.fillCell(i, j, '#ffffff');
+  }
+
+  clear() {
+    for (let i = 0; i < this.#nCols; ++i) {
+      for (let j = 0; j < this.#nRows; ++j) {
+        this.clearCell(i, j);
+      }
+    }
+  }
+
+  drawYData(data) {
+    this.clear();
+    for (let i = 0; i < data.length; ++i) {
+      this.fillCell(i, data[i]);
+    }
   }
 
   /* Private Variables */

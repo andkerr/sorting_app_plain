@@ -1,7 +1,3 @@
-import { drawCells } from "./grid.js";
-
-export const sleep = ms => new Promise(r => setTimeout(r, ms));
-
 // from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/
 // Global_Objects/Math/random#getting_a_random_integer_between_two_values_inclusive
 function getRandomIntInclusive(min, max) {
@@ -21,11 +17,4 @@ export function randomPerm(elts) {
   }
 
   return elts;
-}
-
-export async function animate(g, frames) {
-  for (let i = 0; i < frames.length; ++i) {
-    drawCells(g, frames[i]);
-    await sleep(500);
-  }
 }
