@@ -7,4 +7,4 @@ This a work in progress. Currently, I have implemented the following sorting alg
 -   Merge Sort
 -   Heap Sort
 
-Head over to [https://andkerr.github.io/sorting_app_plain](https://andkerr.github.io/sorting_app_plain), and sort away!
+Head over to [https://andkerr.github.io/simplesorter](https://andkerr.github.io/simplesorter), and sort away!
