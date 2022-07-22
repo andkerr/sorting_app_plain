@@ -25,6 +25,7 @@ function deepCopy(x) {
   return JSON.parse(JSON.stringify(x));
 }
 
+
 /* Sorting Algorithms */
 
 class MergeSort {
@@ -105,5 +106,87 @@ class MergeSort {
     this.#sortAndComputeSteps(lo, mid);
     this.#sortAndComputeSteps(mid + 1, hi);
     this.#mergeAndUpdateSteps(lo, mid, hi);
+  }
+}
+
+
+class HeapSort {
+
+  /* Constructor */
+
+   constructor(n) {
+    this.#data = randomPerm([...Array(n).keys()]);
+    this.#steps = [deepCopy(this.#data)];
+    this.#stepCounter = 0;
+  }
+
+  /* Public Methods */
+
+  step() {
+    if (this.#steps.length == 1) {
+      this.#sortAndComputeSteps(0, this.#data.length - 1);
+    }
+    let currentStep = deepCopy(this.#steps[this.#stepCounter]);
+    ++this.#stepCounter;
+    return currentStep;
+  }
+
+  done() {
+    return this.#stepCounter == this.#steps.length;
+  }
+
+  /* Private Variables */
+  
+  #data;
+  #steps;
+  #stepCounter;
+
+  /* Private Methods */
+
+  #left(idx) {
+    return 2 * idx;
+  }
+
+  #right(idx) {
+    return 2 * idx + 1;
+  }
+
+  #heapify() {
+    for (let i = Math.floor(this.#data.length / 2); i >= 0; --i) {
+      this.#siftDown(i, this.#data.length);
+    }
+  }
+
+  #siftDown(idx, heapSize) {
+    var l = this.#left(idx),
+        r = this.#right(idx),
+        largest = -1;
+
+    if ((l < heapSize) && (this.#data[l] > this.#data[idx])) {
+      largest = l;
+    }
+    else {
+      largest = idx;
+    }
+
+    if ((r < heapSize) && (this.#data[r] > this.#data[largest])) {
+      largest = r;
+    }
+
+    if (largest != idx) {
+      [this.#data[idx], this.#data[largest]] = [this.#data[largest], this.#data[idx]];
+      this.#steps.push(deepCopy(this.#data));
+      this.#siftDown(largest, heapSize);
+    }
+  }
+
+  #sortAndComputeSteps() {
+    this.#heapify();
+
+    for (let i = this.#data.length - 1; i >= 1; --i) {
+      [this.#data[0], this.#data[i]] = [this.#data[i], this.#data[0]];
+      this.#steps.push(deepCopy(this.#data));
+      this.#siftDown(0, i);
+    }
   }
 }

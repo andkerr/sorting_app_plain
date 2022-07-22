@@ -2,8 +2,11 @@ class Grid {
 
   /* Constructor */
 
-  constructor(canvasEltId, cellWidth, cellHeight, gutter) {
+  constructor(canvasEltId) {
     this.#canvasElt = document.getElementById(canvasEltId);
+  }
+
+  initFromCellDimensions(cellWidth, cellHeight, gutter) {
     this.#cellWidth = cellWidth;
     this.#cellHeight = cellHeight;
     this.#gutter = gutter;
@@ -66,6 +69,10 @@ class Grid {
     }
   }
 
+  drawSortedData() {
+    this.drawYData([...Array(this.nCols).keys()]);
+  }
+
   /* Private Variables */
 
   #canvasElt;
@@ -83,5 +90,51 @@ class Grid {
     let context = this.#canvasElt.getContext('2d');
     context.fillStyle = bgColor;
     context.fillRect(0, 0, this.#gridWidth, this.#gridHeight);
+  }
+}
+
+class Visualizer extends Grid {
+
+  /* Constructor */
+
+  constructor(canvasEltId, cellWidth, cellHeight, gutter, msPerInterval = 100) {
+    super(canvasEltId, cellWidth, cellHeight, gutter);
+    this.#msPerInterval = msPerInterval;
+    this.#currentRunningAlgoID = null;
+  }
+
+  /* Public Methods */
+
+  mountButtons(algorithms) {
+    const buttonContainer = document.getElementById('button-container');
+    algorithms.forEach(algorithm => {
+        const button = document.createElement('button');
+        button.innerHTML = algorithm.name;
+        button.addEventListener('click', () => {
+            this.#run(algorithm);
+        });
+        buttonContainer.appendChild(button);
+    });
+  }
+
+  /* Private Variables */
+
+  #msPerInterval;
+  #currentRunningAlgoID;
+
+  /* Private Methods */
+
+  #run(algo) {
+    if (this.#currentRunningAlgoID != null) {
+      window.clearInterval(this.#currentRunningAlgoID);
+    }
+
+    this.#currentRunningAlgoID = window.setInterval((algo) => {
+        this.drawYData(algo.step());
+
+        if (algo.done()) {
+            window.clearInterval(this.#currentRunningAlgoID);
+        }
+    }, this.#msPerInterval, new algo(this.nCols));
   }
 }

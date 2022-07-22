@@ -1,13 +1,10 @@
 function main() {
-    let grid = new Grid('canvas', 10, 10, 2);
+    algorithms = [MergeSort, HeapSort];
 
-    var intervalID = window.setInterval((algo) => {
-        grid.drawYData(algo.step());
-
-        if (algo.done()) {
-            window.clearInterval(intervalID);
-        }
-    }, 100, new MergeSort(grid.nCols));
+    let vis = new Visualizer('canvas');
+    vis.initFromCellDimensions(10, 10, 2);
+    vis.drawSortedData();
+    vis.mountButtons(algorithms);
 }
 
 document.addEventListener('DOMContentLoaded', main);
