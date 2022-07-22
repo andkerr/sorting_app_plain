@@ -13,7 +13,7 @@ class Grid {
 
     this.#nCols = Math.floor((this.#canvasElt.width - this.#gutter) / (this.#cellWidth + this.#gutter));
     this.#nRows = Math.floor((this.#canvasElt.height - this.#gutter) / (this.#cellHeight + this.#gutter));
-  
+
     this.#gridWidth = this.#nCols * (this.#cellWidth + this.#gutter) + this.#gutter;
     this.#gridHeight = this.#nRows * (this.#cellHeight + this.#gutter) + this.#gutter;
 
@@ -22,7 +22,7 @@ class Grid {
     let extraY = this.#canvasElt.height - this.#gridHeight;
     let context = this.#canvasElt.getContext('2d');
     context.translate(Math.floor(extraX / 2), Math.floor(extraY / 2));
-  
+
     // to start, render an empty grid
     this.#setBackground();
     this.clear();
@@ -36,6 +36,10 @@ class Grid {
 
   get nRows() {
     return this.#nRows;
+  }
+
+  setInvertYAxis(invert) {
+    this.#invertYAxis = invert;
   }
 
   fillCell(i, j, color = '#cc8800') {
@@ -65,7 +69,12 @@ class Grid {
   drawYData(data) {
     this.clear();
     for (let i = 0; i < data.length; ++i) {
-      this.fillCell(i, data[i]);
+      if (this.#invertYAxis) {
+        this.fillCell(i, this.#nRows - data[i] - 1);
+      }
+      else {
+        this.fillCell(i, data[i]);
+      }
     }
   }
 
@@ -83,6 +92,7 @@ class Grid {
   #gutter;
   #nCols;
   #nRows;
+  #invertYAxis;
 
   /* Private Methods */
 
