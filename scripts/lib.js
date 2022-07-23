@@ -28,33 +28,56 @@ function deepCopy(x) {
 
 /* Sorting Algorithms */
 
-class MergeSort {
+class SortingAlgorithm {
   constructor(n) {
-    this.#data = randomPerm([...Array(n).keys()]);
-    this.#steps = [deepCopy(this.#data)];
-    this.#stepCounter = 0;
+    this.data = randomPerm([...Array(n).keys()]);
+    this.steps = [deepCopy(this.data)];
+    this.stepCounter = 0;
   }
+
+  /* Public Variables */
+  
+  data;
+  steps;
+  stepCounter;
 
   /* Public Methods */
 
   step() {
-    if (this.#steps.length == 1) {
-      this.#sortAndComputeSteps(0, this.#data.length - 1);
+    if (this.steps.length == 1) {
+      this.sortAndComputeSteps(0, this.data.length - 1);
     }
-    let currentStep = deepCopy(this.#steps[this.#stepCounter]);
-    ++this.#stepCounter;
+    let currentStep = deepCopy(this.steps[this.stepCounter]);
+    ++this.stepCounter;
     return currentStep;
   }
 
   done() {
-    return this.#stepCounter == this.#steps.length;
+    return this.stepCounter == this.steps.length;
   }
 
-  /* Private Variables */
-  
-  #data;
-  #steps;
-  #stepCounter;
+  sortAndComputeSteps() {
+    return;
+  }
+}
+
+class MergeSort extends SortingAlgorithm {
+  constructor(n) {
+    super(n);
+  }
+
+  /* Public Methods */
+
+  sortAndComputeSteps(lo, hi) {
+    if (lo == hi) {
+      return;
+    }
+
+    let mid = Math.floor((lo + hi) / 2);
+    this.sortAndComputeSteps(lo, mid);
+    this.sortAndComputeSteps(mid + 1, hi);
+    this.#mergeAndUpdateSteps(lo, mid, hi);
+  }
 
   /* Private Methods */
 
@@ -66,14 +89,14 @@ class MergeSort {
     var l_curr, r_curr;
     while ((l_idx <= mid) || (r_idx <= hi)) {
       if (l_idx <= mid) {
-        l_curr = this.#data[l_idx];
+        l_curr = this.data[l_idx];
       }
       else {
         l_curr = Infinity;
       }
 
       if (r_idx <= hi) {
-        r_curr = this.#data[r_idx];
+        r_curr = this.data[r_idx];
       }
       else {
         r_curr = Infinity;
@@ -90,56 +113,31 @@ class MergeSort {
     }
 
     for (let i = 0; i < buffer.length; ++i) {
-      if (this.#data[lo + i] != buffer[i]) {
-        this.#data[lo + i] = buffer[i];
-        this.#steps.push(deepCopy(this.#data));
+      if (this.data[lo + i] != buffer[i]) {
+        this.data[lo + i] = buffer[i];
+        this.steps.push(deepCopy(this.data));
       }
     }
-  }
-
-  #sortAndComputeSteps(lo, hi) {
-    if (lo == hi) {
-      return;
-    }
-
-    let mid = Math.floor((lo + hi) / 2);
-    this.#sortAndComputeSteps(lo, mid);
-    this.#sortAndComputeSteps(mid + 1, hi);
-    this.#mergeAndUpdateSteps(lo, mid, hi);
   }
 }
 
 
-class HeapSort {
-
-  /* Constructor */
-
+class HeapSort extends SortingAlgorithm {
    constructor(n) {
-    this.#data = randomPerm([...Array(n).keys()]);
-    this.#steps = [deepCopy(this.#data)];
-    this.#stepCounter = 0;
+    super(n);
   }
 
   /* Public Methods */
 
-  step() {
-    if (this.#steps.length == 1) {
-      this.#sortAndComputeSteps(0, this.#data.length - 1);
+  sortAndComputeSteps() {
+    this.#heapify();
+
+    for (let i = this.data.length - 1; i >= 1; --i) {
+      [this.data[0], this.data[i]] = [this.data[i], this.data[0]];
+      this.steps.push(deepCopy(this.data));
+      this.#siftDown(0, i);
     }
-    let currentStep = deepCopy(this.#steps[this.#stepCounter]);
-    ++this.#stepCounter;
-    return currentStep;
   }
-
-  done() {
-    return this.#stepCounter == this.#steps.length;
-  }
-
-  /* Private Variables */
-  
-  #data;
-  #steps;
-  #stepCounter;
 
   /* Private Methods */
 
@@ -152,8 +150,8 @@ class HeapSort {
   }
 
   #heapify() {
-    for (let i = Math.floor(this.#data.length / 2); i >= 0; --i) {
-      this.#siftDown(i, this.#data.length);
+    for (let i = Math.floor(this.data.length / 2); i >= 0; --i) {
+      this.#siftDown(i, this.data.length);
     }
   }
 
@@ -162,31 +160,56 @@ class HeapSort {
         r = this.#right(idx),
         largest = -1;
 
-    if ((l < heapSize) && (this.#data[l] > this.#data[idx])) {
+    if ((l < heapSize) && (this.data[l] > this.data[idx])) {
       largest = l;
     }
     else {
       largest = idx;
     }
 
-    if ((r < heapSize) && (this.#data[r] > this.#data[largest])) {
+    if ((r < heapSize) && (this.data[r] > this.data[largest])) {
       largest = r;
     }
 
     if (largest != idx) {
-      [this.#data[idx], this.#data[largest]] = [this.#data[largest], this.#data[idx]];
-      this.#steps.push(deepCopy(this.#data));
+      [this.data[idx], this.data[largest]] = [this.data[largest], this.data[idx]];
+      this.steps.push(deepCopy(this.data));
       this.#siftDown(largest, heapSize);
     }
   }
+}
 
-  #sortAndComputeSteps() {
-    this.#heapify();
+class QuickSort extends SortingAlgorithm {
+  constructor(n) {
+    super(n);
+  }
 
-    for (let i = this.#data.length - 1; i >= 1; --i) {
-      [this.#data[0], this.#data[i]] = [this.#data[i], this.#data[0]];
-      this.#steps.push(deepCopy(this.#data));
-      this.#siftDown(0, i);
+  /* Public Methods */
+
+  sortAndComputeSteps(lo, hi) {
+    if (lo < hi) {
+     let pivotIdx = this.#partition(lo, hi);
+     this.sortAndComputeSteps(lo, pivotIdx - 1);
+     this.sortAndComputeSteps(pivotIdx + 1, hi);
     }
+  }
+
+  #partition(lo, hi) {
+    let compElement = this.data[hi];
+    let i = lo - 1;
+    for (let j = lo; j < hi; ++j) {
+      if (this.data[j] <= compElement) {
+        ++i;
+        if (this.data[i] != this.data[j]) {
+          [this.data[i], this.data[j]] = [this.data[j], this.data[i]];
+          this.steps.push(deepCopy(this.data));
+        }
+      }
+    }
+    if (this.data[i + 1] != this.data[hi]) {
+      [this.data[i + 1], this.data[hi]] = [this.data[hi], this.data[i + 1]];
+      this.steps.push(deepCopy(this.data));
+    }
+    return i + 1;
   }
 }

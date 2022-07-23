@@ -1,7 +1,7 @@
 function main() {
-    algorithms = [MergeSort, HeapSort];
+    algorithms = [MergeSort, HeapSort, QuickSort];
 
-    let vis = new Visualizer('canvas');
+    let vis = new Visualizer('canvas', msPerInterval = 200);
     vis.setInvertYAxis(true);
     vis.initFromCellDimensions(10, 10, 2);
     vis.drawSortedData();

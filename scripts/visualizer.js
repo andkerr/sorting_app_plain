@@ -1,7 +1,4 @@
 class Grid {
-
-  /* Constructor */
-
   constructor(canvasEltId) {
     this.#canvasElt = document.getElementById(canvasEltId);
   }
@@ -104,11 +101,8 @@ class Grid {
 }
 
 class Visualizer extends Grid {
-
-  /* Constructor */
-
-  constructor(canvasEltId, cellWidth, cellHeight, gutter, msPerInterval = 100) {
-    super(canvasEltId, cellWidth, cellHeight, gutter);
+  constructor(canvasEltId, msPerInterval = 100) {
+    super(canvasEltId);
     this.#msPerInterval = msPerInterval;
     this.#currentRunningAlgoID = null;
   }
