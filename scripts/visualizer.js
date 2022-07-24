@@ -1,6 +1,10 @@
 class Grid {
   constructor(canvasEltId) {
     this.#canvasElt = document.getElementById(canvasEltId);
+    
+    // drawing defaults
+    this.#invertYAxis = false;
+    this.#drawBars = false;
   }
 
   initFromCellDimensions(cellWidth, cellHeight, gutter) {
@@ -39,13 +43,20 @@ class Grid {
     this.#invertYAxis = invert;
   }
 
+  setDrawBars(drawBars) {
+    this.#drawBars = drawBars;
+  }
+
   fillCell(i, j, color = '#cc8800') {
     let context = this.#canvasElt.getContext('2d');
     context.fillStyle = color;
     context.save();
 
-    context.translate(i * (this.#cellWidth + this.#gutter) + this.#gutter,
-                      j * (this.#cellHeight + this.#gutter) + this.#gutter);
+    let x = i;
+    let y = this.#invertYAxis ? this.#nRows - j - 1 : j;
+
+    context.translate(x * (this.#cellWidth + this.#gutter) + this.#gutter,
+                      y * (this.#cellHeight + this.#gutter) + this.#gutter);
     context.fillRect(0, 0, this.#cellWidth, this.#cellHeight);
 
     context.restore();
@@ -65,13 +76,13 @@ class Grid {
 
   drawYData(data) {
     this.clear();
-    for (let i = 0; i < data.length; ++i) {
-      if (this.#invertYAxis) {
-        this.fillCell(i, this.#nRows - data[i] - 1);
+    for (let x = 0; x < data.length; ++x) {
+      if (this.#drawBars) {
+        for (let y = 0; y < data[x]; ++y) {
+          this.fillCell(x, y);
+        }
       }
-      else {
-        this.fillCell(i, data[i]);
-      }
+      this.fillCell(x, data[x]);
     }
   }
 
@@ -90,6 +101,7 @@ class Grid {
   #nCols;
   #nRows;
   #invertYAxis;
+  #drawBars;
 
   /* Private Methods */
 

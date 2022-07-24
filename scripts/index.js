@@ -1,9 +1,10 @@
 function main() {
-    algorithms = [MergeSort, HeapSort, QuickSort];
+    let algorithms = [MergeSort, HeapSort, QuickSort];
 
-    let vis = new Visualizer('canvas', msPerInterval = 200);
+    let vis = new Visualizer('canvas', msPerInterval = 150);
     vis.setInvertYAxis(true);
-    vis.initFromCellDimensions(10, 10, 2);
+    vis.setDrawBars(true);
+    vis.initFromCellDimensions(15, 15, 3);
     vis.drawSortedData();
     vis.mountButtons(algorithms);
 }

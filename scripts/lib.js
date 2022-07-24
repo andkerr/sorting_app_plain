@@ -10,12 +10,10 @@ function getRandomIntInclusive(min, max) {
 }
 
 function randomPerm(elts) {
-  let tmp, rand_idx;
+  let rand_idx;
   for (let i = 0; i < elts.length; ++i) {
     rand_idx = getRandomIntInclusive(i, elts.length - 1);
-    tmp = elts[i];
-    elts[i] = elts[rand_idx];
-    elts[rand_idx] = tmp;
+    [elts[i], elts[rand_idx]] = [elts[rand_idx], elts[i]];
   }
 
   return elts;
