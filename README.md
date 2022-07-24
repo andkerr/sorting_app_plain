@@ -12,4 +12,4 @@ This a work in progress. Currently, I have implemented the following sorting alg
 -   tracking the number of comparisons and swaps performed by an algorithm
 -   visualizing comparison operations by highlighting columns
 
-To view the app in its current form, head over to [https://andkerr.github.io/simplesorter](https://andkerr.github.io/simplesorter), and sort away!
+Head over to [https://andkerr.github.io/simplesorter](https://andkerr.github.io/simplesorter), and sort away!
